@@ -1,18 +1,32 @@
 <template>
-  <div>
-    <PersonalForm />
-    <CodeForm />
-  </div>
+  <HeaderComponent />
+  <UserForm/>
+    
+    
+
 </template>
 
 <script>
-import PersonalForm from './components/PersonalForm.vue'
-import CodeForm from './components/CodeForm.vue'
+import HeaderComponent from './shared/Header.vue'
+
+import UserForm from './components/UserForm.vue'
 export default {
   name: 'App',
+  data() {
+    return {
+      messageSent: false
+    }
+  },
   components: {
-    PersonalForm,
-    CodeForm
+    
+    UserForm,
+    
+    HeaderComponent
+  },
+  methods: {
+    codeSent(codeSent) {
+      this.messageSent = codeSent
+    }
   }
 }
 </script>
@@ -25,11 +39,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
 
   color: #2c3e50;
-  margin-top: 60px;
+  
 }
 
-div {
-  width: 50%;
-  margin: 0 auto;
-}
+
 </style>
