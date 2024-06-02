@@ -9,10 +9,8 @@ const http = axios.create({
 export const sendCode = async () => {
     try {
       const response = await http.get('/send-code');
-      console.log('Respuesta del servidor:', response.data);
       return response.data.status;
     } catch (error) {
-      console.error('Error al enviar el código:', error);
       return false; 
     }
   };
@@ -20,10 +18,8 @@ export const sendCode = async () => {
   export const compareCode = async (code) => {
     try {
       const response = await http.post('/verify-code',  code );
-      console.log('Respuesta del servidor2:', response.data);
       return response.data.status;
     } catch (error) {
-      console.error('Error al validar el código2:', error);
       return false; 
     }
   };
@@ -31,10 +27,17 @@ export const sendCode = async () => {
   export const sendRucCode = async (ruc) => {
     try {
       const response = await http.get(`/ruc/${ruc}`);
-      console.log('Respuesta del servidor:', response.data);
       return response.data;
     } catch (error) {
-      console.error('Error al enviar el código:', error);
+      return false; 
+    }
+  };
+
+  export const saveLead = async (data) => {
+    try {
+      const response = await http.post('/lead',  data );
+      return response.data.status;
+    } catch (error) {
       return false; 
     }
   };

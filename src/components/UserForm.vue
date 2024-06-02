@@ -30,31 +30,32 @@
                 </v-row>
             </v-container>
         </v-form>
-        <span v-if="codeError" class="error">Oh no! Ocurrio un error al enviar el código, intentalo de nuevo</span>
+        <span v-if="codeError" class="alert">Oh no! Ocurrio un error al enviar el código, intentalo de nuevo</span>
         <div v-if="!codeState">
             <p>Enviaremos un <b>mensaje de texto</b> a tu número de celular.</p>
             <p>El código será valido por 2 minutos.</p>
         </div>
         <div v-if="codeState">
             <p>Código enviado a <b>{{ phone }}</b></p>
-            <p>{{ timer === "00:00" ? 'El código expiró' : `Tiempo restante: ${timer}` }}</p>
+            <p class="alert">{{ timer === "00:00" ? 'El código expiró' : `Tiempo restante: ${timer}` }}</p>
 
         </div>
         <v-otp-input :disabled="!codeState" :error="error" v-model="otp"></v-otp-input>
-        <p v-if="error" class="error error-message" >Código incorrecto</p>
+        <p v-if="error" class="alert error-message">Código incorrecto</p>
         <v-btn :disabled="!changeCodeValid" color="primary" width="60%" :loading="loading" @click="validateCode">VALIDAR
             CÓDIGO</v-btn>
         <p class="reset-message">Si no recibiste el código haz click nuevamente en "Solicitar código"</p>
     </div>
 </template>
 <script>
-import { sendCode, compareCode } from '@/services/wizardService';
+import { sendCode, compareCode, saveLead } from '@/services/wizardService';
 export default {
     name: 'UserForm',
     data() {
         return {
             form: false,
             otp: '',
+            userData: {},
             codeState: false,
             codeError: false,
             error: false,
@@ -62,7 +63,7 @@ export default {
             loading: false,
             disabled: false,
             codeSent: false,
-            time: 10,
+            time: 120,
             name: '',
             textRules: [
                 v => !!v || 'Este campo es requerido',
@@ -91,9 +92,10 @@ export default {
     methods: {
         async onSubmit() {
             if (!this.form) return
+            this.error = false
             this.loading = true
             this.codeState = await sendCode()
-            if (this.codeState) { this.time = 100; this.reduceTime(); this.codeError = false } else { this.codeError = true }
+            if (this.codeState) { this.time = 120; this.reduceTime(); this.codeError = false } else { this.codeError = true }
             this.otp = ''
             this.loading = false
             this.disabled = true
@@ -103,25 +105,33 @@ export default {
             this.interval = setInterval(() => {
                 if (this.time > 0 && this.codeState) {
                     this.time--;
-                    console.log(this.time)
                 }
             }, 1000);
         },
         async validateCode() {
-            this.codeValid = await compareCode({code: this.otp})
-            if(this.codeValid){
+            this.codeValid = await compareCode({ code: this.otp })
+            if (this.codeValid) {
                 this.error = false
-                console.log('valido')
-                clearInterval(this.interval)
-            }else{
+                this.userData = { "name": this.name, "lastname": this.lastname, "phone": this.phone }
+                this.save()
+            } else {
                 this.error = true
             }
+        },
+        async save() {
+            let saveStatus = await saveLead(this.userData)
+            if (saveStatus) {
+                localStorage.setItem('userData', JSON.stringify(this.userData))
+                this.$router.push('/business')
+                clearInterval(this.interval)
+            }
+
         }
     }
 }
 </script>
 <style scoped>
-.error {
+.alert {
     color: #AE3F28;
 }
 
@@ -129,10 +139,14 @@ export default {
     width: 60%;
     margin: 0 auto;
     text-align: center;
-    &>.reset-message{
+
+    &>.reset-message {
         margin: 20px 0px;
-    };
-    &.error-message{
+    }
+
+    ;
+
+    &.error-message {
         margin: 10px 0px;
     }
 }

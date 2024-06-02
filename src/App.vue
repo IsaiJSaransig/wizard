@@ -1,9 +1,13 @@
 <template>
-  <BusinessForm/>
+  <div id="app">
+    <HeaderComponent />
+    <router-view> </router-view>
+  </div>
 </template>
 
 <script>
-import BusinessForm from './components/BusinessForm.vue'
+
+import HeaderComponent from './shared/Header.vue';
 export default {
   name: 'App',
   data() {
@@ -12,7 +16,7 @@ export default {
     }
   },
   components: {
-    BusinessForm
+    HeaderComponent
   },
   methods: {
     codeSent(codeSent) {
@@ -30,8 +34,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
 
   color: #2c3e50;
-  
+
 }
-
-
 </style>

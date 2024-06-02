@@ -1,5 +1,4 @@
 <template>
-    <HeaderComponent />
     <v-form @submit.prevent="onSubmit" v-model="form">
         <v-container>
             <v-row>
@@ -61,7 +60,7 @@
             <v-row v-show="found">
                 <v-col cols="12">
                     <v-btn :disabled="!form" :loading="loading" color="primary" size="large" type="submit" variant="elevated" block>
-                        SOLICITAR CÓDIGO
+                        CREAR DEMO
                     </v-btn>
                 </v-col>
             </v-row>
@@ -70,16 +69,19 @@
 </template>
 
 <script>
-import HeaderComponent from '../shared/Header.vue';
-import { sendRucCode } from '@/services/wizardService';
+import { sendRucCode, saveLead } from '@/services/wizardService';
 
 export default {
     name: 'BusinessForm',
-    components: {
-        HeaderComponent,
+    mounted() {
+        let lsData = JSON.parse(localStorage.getItem('userData'))
+        if(lsData){
+            this.userData = lsData
+        }
     },
     data() {
         return {
+            userData : {},
             form: false,
             notFound: true,
             found: false,
@@ -110,6 +112,8 @@ export default {
         onSubmit() {
             if (!this.form) return;
             this.loading = true;
+            this.addData();
+            this.save();
         },
         async searchRUC() {
             if(!this.isRucValid) return
@@ -128,12 +132,26 @@ export default {
                     this.found = false;
                 }
             } catch (error) {
-                console.error('Error searching RUC:', error);
                 this.loadingSearch = false;
                 this.notFound = false;
                 this.found = false;
             }
         },
+        addData() {
+            this.userData.ruc = this.ruc
+            this.userData.address = this.direction
+            this.userData.commercialname = this.comercialName
+            this.userData.businessname = this.name
+            this.userData.code = this.subsidiariesCode
+            this.userData.email = this.email
+        },
+        async save() {
+            let saveStatus = await saveLead(this.userData)
+            if (saveStatus) {
+                localStorage.removeItem('userData')
+                this.$router.push('/confirmation')
+            }
+        }
     },
     computed: {
         isRucValid() {
