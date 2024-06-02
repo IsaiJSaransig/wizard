@@ -1,15 +1,9 @@
 <template>
-  <HeaderComponent />
-  <UserForm/>
-    
-    
-
+  <BusinessForm/>
 </template>
 
 <script>
-import HeaderComponent from './shared/Header.vue'
-
-import UserForm from './components/UserForm.vue'
+import BusinessForm from './components/BusinessForm.vue'
 export default {
   name: 'App',
   data() {
@@ -18,10 +12,7 @@ export default {
     }
   },
   components: {
-    
-    UserForm,
-    
-    HeaderComponent
+    BusinessForm
   },
   methods: {
     codeSent(codeSent) {

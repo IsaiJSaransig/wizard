@@ -6,11 +6,11 @@
 
                 <v-row>
                     <v-col cols="12" sm="6">
-                        <v-text-field class="text-size" v-model="name" :rules="nameRules" label="Nombre"
+                        <v-text-field class="text-size" v-model="name" :rules="textRules" label="Nombre"
                             placeholder="Ej. Stephen" required variant="outlined"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6">
-                        <v-text-field v-model="lastname" :rules="lastNameRules" label="Apellido" placeholder="Ej. King"
+                        <v-text-field v-model="lastname" :rules="textRules" label="Apellido" placeholder="Ej. King"
                             required variant="outlined"></v-text-field>
                     </v-col>
                 </v-row>
@@ -64,17 +64,12 @@ export default {
             codeSent: false,
             time: 10,
             name: '',
-            nameRules: [
+            textRules: [
                 v => !!v || 'Este campo es requerido',
                 value => /^[\p{L}\s]+$/u.test(value) || 'Este campo no admite caracteres especiales o números',
                 v => v.length >= 3 || 'Este campo debe tener al menos 3 caracteres',
             ],
             lastname: '',
-            lastNameRules: [
-                v => !!v || 'Este campo es requerido',
-                value => /^[\p{L}\s]+$/u.test(value) || 'Este campo no admite caracteres especiales o números',
-                v => v.length >= 3 || 'Este campo debe tener al menos 3 caracteres',
-            ],
             phone: '',
             phoneRules: [
                 v => !!v || 'Este campo es requerido',

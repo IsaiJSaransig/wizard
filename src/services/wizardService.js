@@ -27,3 +27,14 @@ export const sendCode = async () => {
       return false; 
     }
   };
+
+  export const sendRucCode = async (ruc) => {
+    try {
+      const response = await http.get(`/ruc/${ruc}`);
+      console.log('Respuesta del servidor:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error al enviar el código:', error);
+      return false; 
+    }
+  };
