@@ -20,6 +20,10 @@ const routes = [
   {
     path: '/confirmation',
     component: () => import('./components/ConfirmationPage.vue')  
+  },
+  {
+    path: '/:catchAll(.*)',
+    component: () => import('./components/NotFound.vue')
   }
 ]
 

@@ -142,12 +142,17 @@ export default {
 
     &>.reset-message {
         margin: 20px 0px;
-    }
-
-    ;
+    };
 
     &.error-message {
         margin: 10px 0px;
     }
+}
+
+@media screen and (max-width: 600px) {
+    .user-form-container {
+        width: 90%;
+    }
+    
 }
 </style>
