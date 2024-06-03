@@ -1,24 +1,17 @@
-# wizard
+# Vue 3 Application with Vue Router
 
-## Project setup
-```
+## Requisitos
+
+- Node.js 
+- npm 
+
+## Instalación
+
+# Instalar dependencias
 npm install
-```
 
-### Compiles and hot-reloads for development
-```
+# Ejecutar la aplicación
 npm run serve
-```
 
-### Compiles and minifies for production
-```
+# Compilar para producción
 npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

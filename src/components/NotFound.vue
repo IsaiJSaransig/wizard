@@ -28,4 +28,9 @@ export default {
         font-size: 100px;
         font-weight: bold;
     }
+    @media screen and (max-width: 600px) {
+        .not-found-container{
+            width: 90%;
+        }
+    }
 </style>
