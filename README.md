@@ -1,8 +1,8 @@
-# Vue 3 Application with Vue Router
+# Wizard Ejercicio práctico
 
 ## Requisitos
 
-- Node.js 
+- Node.js
 - npm 
 
 ## Instalación
